@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-blue: #4FC6E3;
+  --color-primary-baby-blue: #D3EAFB;
+  --color-primary-brown: #725c37;
+}
+
+:root {
+  font-family: "Roboto", sans-serif;
+  background-color: #d4e7f6;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.cursive {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+
+.roboto {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.explora-regular {
+  font-family: "Explora", serif;
+}
+
+.cinzel {
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.01); }
+}
+
+@keyframes bubbleFloat {
+          0%   { transform: translate(var(--drift, 0px), 12px) scale(.85); opacity: 0; }
+          10%  { opacity: var(--opacity, .55); }
+          70%  { opacity: var(--opacity, .55); }
+          100% { transform: translate(calc(var(--drift, 0px) * -1), -120px) scale(1.15); opacity: 0; }
+        }
