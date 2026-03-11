@@ -1,0 +1,9 @@
+export default function Spinner() {
+  return (
+    <div className="flex items-center justify-center">
+      <div className="relative h-6 w-6">
+        <div className="h-6 w-6 animate-spin rounded-full border-4 border-white/20 border-t-white"></div>
+      </div>
+    </div>
+  );
+}

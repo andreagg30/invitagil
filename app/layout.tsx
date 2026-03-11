@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import 'material-symbols';
+import { ToastContainer } from "react-toastify";
 
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Dancing+Script:wght@400..700&family=Explora&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
       </head>
       <body>{children}</body>
+      <ToastContainer />
     </html>
   )
 }
