@@ -27,13 +27,14 @@ export default function GuestModal({
 }: {
   open: boolean;
   onClose: () => void;
-  currentGuest?: Guest | null;
+  currentGuest: Guest | null;
   onSuccess: () => void;
 }) {
   const {
     register,
     getValues,
     handleSubmit,
+    reset,
     control,
     formState: { errors },
   } = useForm<FromValues>({
@@ -63,11 +64,12 @@ export default function GuestModal({
   function onSubmit(data: FromValues) {
     setLoading(true);
     fetch("/api/guests", {
-      method: "POST",
+      method: currentGuest ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        _id: currentGuest?._id,
         invitacionId: 1,
         name: data.name,
         email: data.email,
@@ -75,7 +77,7 @@ export default function GuestModal({
         assignedPasses: data.assignedPasses,
         passes: fields.map((_, index) => ({
           name: data.pases[index].name,
-          attending: data.pases[index].attending,
+          attending: currentGuest ? currentGuest.passes[index]?.attending : data.pases[index].attending || null,
         })),
       }),
     }).then((data) => {
@@ -84,7 +86,7 @@ export default function GuestModal({
         setLoading(false);
         onClose();
         onSuccess();
-        toast.success("Invitado añadido correctamente")
+        toast.success("Invitado añadido correctamente");
       }
     });
   }
@@ -104,6 +106,19 @@ export default function GuestModal({
       }),
     );
   }, [assignedPasses, replace, getValues]);
+
+  useEffect(() => {
+    if (open) {
+      reset({
+        name: currentGuest?.name || "",
+        email: currentGuest?.email || "",
+        phone: currentGuest?.phone || "",
+        assignedPasses: currentGuest?.assignedPasses?.toString() || "1",
+        pases: currentGuest?.passes
+      });
+    }
+  }, [open, reset, currentGuest]);
+
   return (
     <Modal
       open={open}

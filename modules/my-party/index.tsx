@@ -2,27 +2,18 @@
 import Icon from "@/components/Icon";
 import { useEffect, useState } from "react";
 import GuestModal from "./GuestModal";
+import DeleteModal from "./DeleteModal";
 
 const colums = [
   { name: "Nombre", key: "name" },
-  { name: "Correo", key: "email" },
   { name: "Teléfono", key: "phone" },
   { name: "Pases Asignados", key: "assignedPasses" },
   { name: "Pases Confirmados", key: "confirmedPasses" },
+  { name: "No Asisten", key: "notAttendingPasses" },
 ];
 
-export interface Guest {
-  name: string;
-  email: string;
-  phone: string;
-  assignedPasses: number;
-  confirmedPasses: number;
-}
-export interface Pass {
-  name: string;
-  attending: boolean;
-}
 export interface GuestData {
+  _id: string;
   name: string;
   email: string;
   phone: string;
@@ -30,28 +21,53 @@ export interface GuestData {
   passes: Pass[];
 }
 
+export interface Guest extends GuestData {
+  confirmedPasses: number;
+  notAttendingPasses: number;
+}
+export interface Pass {
+  name: string;
+  attending: boolean;
+}
+
 function MyParty() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [openDelete, setOpenDelete] = useState(false);
   const [currentGuest, setCurrentGuest] = useState<Guest | null>(null);
   const [guests, setGuests] = useState<Guest[] | undefined>(undefined);
 
   function handleFetchGuests() {
+    setLoading(true);
     fetch("/api/guests")
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         setGuests(
           data?.map((guest: GuestData) => ({
             ...guest,
-            confirmedPasses: (guest?.passes || []).filter((p: Pass) => p.attending)
-              .length,
+            confirmedPasses: (guest?.passes || []).filter(
+              (p: Pass) => p.attending,
+            ).length,
+            notAttendingPasses: (guest?.passes || []).filter(
+              (p: Pass) => p.attending === false,
+            ).length,
           })),
         );
       });
   }
 
+
   useEffect(() => {
-    handleFetchGuests();
+    Promise.resolve().then(() => handleFetchGuests());
   }, []);
+
+  function handleShare(guest: Guest) {
+    const url = `${window.location.origin}/invitations?g=${guest._id}`;
+    const text = `¡Hola ${guest.name}! Te Inivito a mi bautizo, aquí tienes tu enlace de invitación: ${url}`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}. Por favor confirma tu asistencia.`;
+    window.open(whatsappUrl, "_blank");
+  }
 
   return (
     <div className="flex flex-col px-[10%] py-10 gap-10">
@@ -69,9 +85,11 @@ function MyParty() {
       <table className="border-collapse border-2 border-gray-300">
         <thead>
           <tr className="bg-gray-100">
-            {" "}
             {colums.map((col) => (
-              <th key={col.key} className="border-2 border-gray-300 bg-cyan-950 text-white px-4 py-2">
+              <th
+                key={col.key}
+                className="border-2 border-gray-300 bg-cyan-950 text-white px-4 py-2"
+              >
                 {col.name}
               </th>
             ))}
@@ -79,35 +97,104 @@ function MyParty() {
           </tr>
         </thead>
         <tbody>
-          {guests?.map((guest, i) => (
-            <tr key={i} className="bg-gray-100">
-              {colums.map((col) => (
-                <td
-                  key={col.key}
-                  className="border-2 border-gray-300 px-4 py-2"
-                >
-                  {guest[col.key as keyof Guest]}
-                </td>
-              ))}
-              <td className="border-2 border-gray-300 px-4 py-2">
-                <div className=" flex justify-center">
-                  <button className="w-min cursor-pointer">
-                    <Icon
-                      icon="edit"
-                      className="text-gray-500 hover:text-gray-700"
-                    />
-                  </button>
-                </div>
+          {loading ? (
+            <tr className="bg-white h-25">
+              <td
+                colSpan={colums.length + 1}
+                className="border-2 border-gray-300 px-4 py-2 text-center"
+              >
+                Cargando invitados...
               </td>
             </tr>
-          ))}
+          ) : (
+            <>
+              {!guests?.length && (
+                <tr className="bg-white h-25">
+                  <td
+                    colSpan={colums.length + 1}
+                    className="border-2 border-gray-300 px-4 py-2 text-center"
+                  >
+                    No hay invitados registrados.
+                  </td>
+                </tr>
+              )}
+              {guests?.map((guest, i) => (
+                <tr key={i} className="bg-gray-100">
+                  {colums.map((col) => {
+                    const value = guest[col.key as keyof Guest];
+                    return (
+                      <td
+                        key={col.key}
+                        className="border-2 border-gray-300 px-4 py-2"
+                      >
+                        {value instanceof Array ? value.length : value}
+                      </td>
+                    );
+                  })}
+                  <td className="border-2 border-gray-300 px-4 py-2">
+                    <div className="items-center gap-2 flex justify-center">
+                      <button
+                        className="w-min h-min  flex items-center cursor-pointer"
+                        onClick={() => {
+                          setCurrentGuest(guest);
+                          setOpen(true);
+                        }}
+                      >
+                        <Icon
+                          icon="edit"
+                          className="text-gray-500 hover:text-gray-700"
+                        />
+                      </button>
+                      <button
+                        className="w-min h-min flex items-center cursor-pointer"
+                        onClick={() => {
+                          setCurrentGuest(guest);
+                          setOpenDelete(true);
+                        }}
+                      >
+                        <Icon
+                          icon="delete"
+                          className="text-red-500 hover:text-red-700"
+                        />
+                      </button>
+                       <button
+                        className="w-min h-min flex items-center cursor-pointer"
+                        onClick={() => {
+                          handleShare(guest);
+                        }}
+                      >
+                        <Icon
+                          icon="share"
+                          className="text-green-500 hover:text-green-700"
+                        />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </>
+          )}
         </tbody>
       </table>
 
       <GuestModal
         onSuccess={() => handleFetchGuests()}
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          setCurrentGuest(null);
+        }}
+        currentGuest={currentGuest}
+      />
+
+      <DeleteModal
+        onSuccess={() => handleFetchGuests()}
+        currentGuest={currentGuest}
+        open={openDelete}
+        onClose={() => {
+          setOpenDelete(false);
+          setCurrentGuest(null);
+        }}
       />
     </div>
   );

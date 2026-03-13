@@ -1,20 +1,27 @@
-"use client"
+"use client";
 
 import Divider from "@/components/Divider";
 import Icon from "@/components/Icon";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Guest } from "../my-party";
+import ApproveButton from "./ApproveButton";
 
 function Invitation() {
+  const [currentGuest, setCurrentGuest] = useState<Guest | null>(null);
+
+  function handleFetchGuest() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const guestId = urlParams.get("g");
+    fetch("/api/guests?_id=" + guestId)
+      .then((res) => res.json())
+      .then((data) => {
+        setCurrentGuest(data);
+      });
+  }
 
   useEffect(() => {
-    fetch('/api')
-      .then(res => res.json())
-      .then(data => {
-        console.log('hnjhbjhbj', data);
-        
-      });
+    Promise.resolve().then(() => handleFetchGuest());
   }, []);
-
 
 
   return (
@@ -39,7 +46,7 @@ function Invitation() {
 
           <div className="flex justify-center pb-20 z-10 w-full text-center">
             <span className="cinzel text-base font-medium italic text-primary-brown">
-              Sergio Emmanuel Gaxiola Gil
+              Sergio Daniel Gaxiola Gil
             </span>
           </div>
           <div className="flex absolute justify-center bottom-15 z-10 w-full">
@@ -56,8 +63,18 @@ function Invitation() {
       </div>
 
       <div className="flex z-10 gap-5 items-center justify-center flex-col">
-        <div className="text-center uppercase text-xl font-medium text-nowrap p-5 shadow-md bg-white/70 text-primary-brown rounded-full cinzel">
-          Acompáñanos a celebrar la llegada de nuestro bebé
+        <div className="text-center  text-xl font-medium text-nowrap p-5 shadow-md bg-white/70 text-primary-brown rounded-full cinzel">
+          {currentGuest ? (
+            <strong className=" roboto text-primary-brown underline underline-offset-4">
+              {currentGuest.name}
+            </strong>
+          ) : (
+            "¡Hola! "
+          )}
+          <br />
+          <span className="text-sm">
+            Acompáñanos a celebrar la llegada de nuestro bebé
+          </span>
         </div>
 
         <div className="flex w-112.5 shadow-md px-10 py-7 h-full bg-white/70 gap-5 rounded flex-col items-center justify-center">
@@ -106,17 +123,31 @@ function Invitation() {
           </a>
         </div>
 
-        <div className="flex items-center gap-5 w-112.5 shadow-md px-10 py-5 h-full bg-white/70 flex-col rounded mb-24">
+        <div className="flex items-center gap-5 w-112.5 shadow-md px-10 py-5 h-full bg-white/70 flex-col rounded">
           <div className="justify-center flex flex-col gap-2">
             <Icon icon="mail" className="text-8xl!  text-primary-brown" />
-            <span className="text-primary-brown text-2xl cursive"><strong>$ </strong>500.00</span>
+            <span className="text-primary-brown text-2xl cursive">
+              <strong>$ </strong>500.00
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-5 w-112.5 shadow-md px-10 py-5 h-full bg-white/70 flex-col rounded mb-24">
+        <div className="text-white bg-primary-brown font-bold px-3 rounded-full">
+            <span>Pases: {currentGuest?.passes.length || 0}</span>
+        </div>
+          <div className="justify-center text-center flex flex-col gap-3">
+            <span className="text-primary-brown font-bold text-xl cinzel">
+              Por favor, confirme su asistencia.
+            </span>
+
+            {currentGuest && <ApproveButton currentGuest={currentGuest} />}
           </div>
         </div>
       </div>
 
-      <div className="w-full h-64 fixed bottom-0">
-      </div>
-      <img src="patos.png" className="fixed opacity-40 -top-100"/>
+      <div className="w-full h-64 fixed bottom-0"></div>
+      <img src="patos.png" className="fixed opacity-40 -top-100" />
     </div>
   );
 }

@@ -48,7 +48,7 @@ export default function Modal({ open, onClose, title, children, actions }: Modal
 
           <button
             onClick={onClose}
-            className="rounded-md px-2 py-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            className="rounded-md cursor-pointer h-7 w-7 flex justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-700"
             aria-label="Close modal"
           >
             <Icon icon="close" />
