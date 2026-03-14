@@ -8,9 +8,7 @@ export async function GET(request: Request) {
   const db = client.db("invitagil");
   const url = new URL(request.url);
   const id = url.searchParams.get("_id");
-  if(!process.env.MONGODB_URI) {
-    return new Response("MongoDB URI not configured", { status: 500 });
-  }
+
   let guests;
   if (id) {
     guests = await db.collection("guests").findOne({ _id: new ObjectId(id) });
