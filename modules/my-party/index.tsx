@@ -70,7 +70,8 @@ function MyParty() {
 
     if (guest.phone) {
       const phoneNumber = guest.phone.replace(/\D/g, "");
-      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}. Por favor confirma tu asistencia.`;
+      
+      const whatsappUrl = `https://wa.me/${'+52' + phoneNumber}?text=${encodeURIComponent(text)}. Por favor confirma tu asistencia.`;
       window.open(whatsappUrl, "_blank");
       return;
     }
