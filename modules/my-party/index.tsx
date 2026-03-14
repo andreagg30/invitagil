@@ -3,6 +3,8 @@ import Icon from "@/components/Icon";
 import { useEffect, useState } from "react";
 import GuestModal from "./GuestModal";
 import DeleteModal from "./DeleteModal";
+import Button from "@/components/Button";
+import TextInput from "@/components/TextInput";
 
 const colums = [
   { name: "Nombre", key: "name" },
@@ -66,6 +68,34 @@ function MyParty() {
     const text = `¡Hola ${guest.name}! Te Inivito a mi bautizo, aquí tienes tu enlace de invitación: ${url}`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}. Por favor confirma tu asistencia.`;
     window.open(whatsappUrl, "_blank");
+  }
+  const [password, setPassword] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
+
+  if (!authenticated) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <div className="flex flex-col items-center justify-center gap-3 p-10 rounded-2xl bg-white/70">
+          <h2 className="mb-4 text-xl font-bold">
+            Ingresa la contraseña para acceder
+          </h2>
+          <TextInput
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Contraseña"
+          />
+          <Button
+            onClick={() => {
+              if (password === "sergioBebe") setAuthenticated(true);
+            }}
+            className="w-30"
+          >
+            Entrar
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
