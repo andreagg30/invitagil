@@ -26,6 +26,12 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Dancing+Script:wght@400..700&family=Explora&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
         />
+
+         <meta property="og:title" content="Invitación" />
+          <meta property="og:description" content="¡Te invito a mi baby shower!" />
+          <meta property="og:image" content="https://invitagil.com/preview.png" />
+          <meta property="og:url" content="https://invitagil.com/" />
+          <meta property="og:type" content="website" />
       </head>
       <body>
         {children}
