@@ -153,7 +153,7 @@ function Invitation() {
 
         <div className="flex items-center gap-5 w-full md:w-112.5 shadow-md px-10 py-5 h-full bg-white/70 flex-col rounded mb-24">
           <div className="text-white bg-primary-brown font-bold px-3 rounded-full">
-            <span>Pases: {currentGuest?.passes.length || 0}</span>
+            <span>Pases: {currentGuest?.passes?.filter(o => o.attending === true).length || currentGuest?.passes.length || 0}</span>
           </div>
           <div className="justify-center text-center flex flex-col gap-3">
             <span className="text-primary-brown font-bold text-base md:text-xl cinzel">
