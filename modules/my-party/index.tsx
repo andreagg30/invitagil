@@ -70,7 +70,14 @@ function MyParty() {
     window.open(whatsappUrl, "_blank");
   }
   const [password, setPassword] = useState("");
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('authenticated') === 'true';
+    }
+    return false;
+  });
+
+  
 
   if (!authenticated) {
     return (
@@ -87,7 +94,10 @@ function MyParty() {
           />
           <Button
             onClick={() => {
-              if (password === "sergioBebe") setAuthenticated(true);
+              if (password === "sergioBebe") {
+                setAuthenticated(true);
+                localStorage.setItem('authenticated', 'true');
+              }
             }}
             className="w-30"
           >
@@ -97,6 +107,7 @@ function MyParty() {
       </div>
     );
   }
+  console.log(process.env.MONGODB_URI, 'MONGODB_URI');
 
   return (
     <div className="flex flex-col px-[10%] py-10 gap-10">
