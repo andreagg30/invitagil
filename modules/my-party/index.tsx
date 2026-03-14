@@ -66,7 +66,7 @@ function MyParty() {
   function handleShare(guest: Guest) {
     const url = `https://invitagil.com/invitations?g=${guest._id}`;
 
-    const text = `¡Hola ${guest.name}! Te Inivito a mi bautizo, aquí tienes tu enlace de invitación: ${url}`;
+    const text = `¡Hola ${guest.name}! Te Inivito a mi baby shower, aquí tienes tu enlace de invitación: ${url}`;
 
     if (guest.phone) {
       const phoneNumber = guest.phone.replace(/\D/g, "");

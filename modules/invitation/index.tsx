@@ -56,7 +56,7 @@ function Invitation() {
           </div>
 
           <div className="flex justify-center pb-20 z-10 w-full text-center">
-            <span className="cinzel text-base font-medium italic text-primary-brown">
+            <span className="cursive text-2xl font-medium italic text-primary-brown">
               Sergio Daniel Gaxiola Gil
             </span>
           </div>
@@ -111,7 +111,7 @@ function Invitation() {
             <div className="h-10 sm:h-12 w-0.5 bg-primary-brown" />
 
             <div className="font-script text-2xl md:text-3xl sm:text-4xl cursive text-primary-brown">
-              2:00pm
+              3:00pm
             </div>
           </div>
 
