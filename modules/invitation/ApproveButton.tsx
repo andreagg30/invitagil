@@ -55,9 +55,10 @@ function ApproveButton({ currentGuest }: { currentGuest: Guest | null }) {
         className="
                 relative
                 rounded-full
-                px-10
+                md:px-10
                 py-4
-                text-2xl
+                text-xl
+                md:text-2xl
                 font-semibold
                 text-primary-brown
                 bg-primary-blue/30

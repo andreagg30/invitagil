@@ -122,7 +122,11 @@ export default function GuestModal({
   return (
     <Modal
       open={open}
-      title={`${currentGuest ? "Editar" : "Añadir"} invitado${currentGuest ? ` (${currentGuest?.name})` : ""}`}
+      title={
+        (currentGuest ? "Editar" : "Añadir") +
+        " invitado" +
+        (currentGuest ? " (" + (currentGuest?.name ?? "") + ")" : "")
+      }
       onClose={onClose}
       actions={
         <div className="flex justify-end mt-4">
@@ -190,10 +194,10 @@ export default function GuestModal({
           })}
         />
         <div className="flex flex-col gap-1">
-          <label className="mb-1 text-base font-medium text-black">
+          <label htmlFor="manage-pases" className="mb-1 text-base font-medium text-black">
             Gestionar Pases:
           </label>
-          <div className="border flex flex-col rounded-lg gap-1 p-3 min-h-16">
+          <div id="manage-pases" className="border flex flex-col rounded-lg gap-1 p-3 min-h-16">
             {assignedPasses === "0" ? (
               <div className="text-gray-600">
                 No se han asignado pases. Por favor, asigna al menos un pase
@@ -201,8 +205,9 @@ export default function GuestModal({
               </div>
             ) : (
               fields.map((field, index) => (
-                <div className="flex gap-3 items-center" key={index}>
+                <div className="flex gap-3 items-center flex-wrap" key={index}>
                   <TextInput
+                    id={`pase-name-${index}`}
                     maxLength={50}
                     {...register(`pases.${index}.name`, {
                       required: "Este campo es requerido",
@@ -214,6 +219,7 @@ export default function GuestModal({
                     control={control}
                     render={({ field }) => (
                       <Checkbox
+                        id={`pase-attending-${index}`}
                         checked={field.value}
                         onChange={field.onChange}
                         label="¿Confirmado?"

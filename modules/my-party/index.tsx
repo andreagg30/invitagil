@@ -57,7 +57,6 @@ function MyParty() {
       });
   }
 
-
   useEffect(() => {
     Promise.resolve().then(() => handleFetchGuests());
   }, []);
@@ -82,101 +81,102 @@ function MyParty() {
         <Icon icon="add" className="text-2xl text-black" />
       </button>
 
-      <table className="border-collapse border-2 border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            {colums.map((col) => (
-              <th
-                key={col.key}
-                className="border-2 border-gray-300 bg-cyan-950 text-white px-4 py-2"
-              >
-                {col.name}
-              </th>
-            ))}
-            <th className="border bg-cyan-950 border-gray-300 px-4 py-2"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {loading ? (
-            <tr className="bg-white h-25">
-              <td
-                colSpan={colums.length + 1}
-                className="border-2 border-gray-300 px-4 py-2 text-center"
-              >
-                Cargando invitados...
-              </td>
-            </tr>
-          ) : (
-            <>
-              {!guests?.length && (
-                <tr className="bg-white h-25">
-                  <td
-                    colSpan={colums.length + 1}
-                    className="border-2 border-gray-300 px-4 py-2 text-center"
-                  >
-                    No hay invitados registrados.
-                  </td>
-                </tr>
-              )}
-              {guests?.map((guest, i) => (
-                <tr key={i} className="bg-gray-100">
-                  {colums.map((col) => {
-                    const value = guest[col.key as keyof Guest];
-                    return (
-                      <td
-                        key={col.key}
-                        className="border-2 border-gray-300 px-4 py-2"
-                      >
-                        {value instanceof Array ? value.length : value}
-                      </td>
-                    );
-                  })}
-                  <td className="border-2 border-gray-300 px-4 py-2">
-                    <div className="items-center gap-2 flex justify-center">
-                      <button
-                        className="w-min h-min  flex items-center cursor-pointer"
-                        onClick={() => {
-                          setCurrentGuest(guest);
-                          setOpen(true);
-                        }}
-                      >
-                        <Icon
-                          icon="edit"
-                          className="text-gray-500 hover:text-gray-700"
-                        />
-                      </button>
-                      <button
-                        className="w-min h-min flex items-center cursor-pointer"
-                        onClick={() => {
-                          setCurrentGuest(guest);
-                          setOpenDelete(true);
-                        }}
-                      >
-                        <Icon
-                          icon="delete"
-                          className="text-red-500 hover:text-red-700"
-                        />
-                      </button>
-                       <button
-                        className="w-min h-min flex items-center cursor-pointer"
-                        onClick={() => {
-                          handleShare(guest);
-                        }}
-                      >
-                        <Icon
-                          icon="share"
-                          className="text-green-500 hover:text-green-700"
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+      <div className="overflow-auto w-full">
+        <table className="border-collapse border-2 border-gray-300 min-w-225 w-full">
+          <thead>
+            <tr className="bg-gray-100">
+              {colums.map((col) => (
+                <th
+                  key={col.key}
+                  className="border-2 border-gray-300 bg-cyan-950 text-white px-4 py-2"
+                >
+                  {col.name}
+                </th>
               ))}
-            </>
-          )}
-        </tbody>
-      </table>
-
+              <th className="border bg-cyan-950 border-gray-300 px-4 py-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr className="bg-white h-25">
+                <td
+                  colSpan={colums.length + 1}
+                  className="border-2 border-gray-300 px-4 py-2 text-center"
+                >
+                  Cargando invitados...
+                </td>
+              </tr>
+            ) : (
+              <>
+                {!guests?.length && (
+                  <tr className="bg-white h-25">
+                    <td
+                      colSpan={colums.length + 1}
+                      className="border-2 border-gray-300 px-4 py-2 text-center"
+                    >
+                      No hay invitados registrados.
+                    </td>
+                  </tr>
+                )}
+                {guests?.map((guest, i) => (
+                  <tr key={i} className="bg-gray-100">
+                    {colums.map((col) => {
+                      const value = guest[col.key as keyof Guest];
+                      return (
+                        <td
+                          key={col.key}
+                          className="border-2 border-gray-300 px-4 py-2"
+                        >
+                          {value instanceof Array ? value.length : value}
+                        </td>
+                      );
+                    })}
+                    <td className="border-2 border-gray-300 px-4 py-2">
+                      <div className="items-center gap-2 flex justify-center">
+                        <button
+                          className="w-min h-min  flex items-center cursor-pointer"
+                          onClick={() => {
+                            setCurrentGuest(guest);
+                            setOpen(true);
+                          }}
+                        >
+                          <Icon
+                            icon="edit"
+                            className="text-gray-500 hover:text-gray-700"
+                          />
+                        </button>
+                        <button
+                          className="w-min h-min flex items-center cursor-pointer"
+                          onClick={() => {
+                            setCurrentGuest(guest);
+                            setOpenDelete(true);
+                          }}
+                        >
+                          <Icon
+                            icon="delete"
+                            className="text-red-500 hover:text-red-700"
+                          />
+                        </button>
+                        <button
+                          className="w-min h-min flex items-center cursor-pointer"
+                          onClick={() => {
+                            handleShare(guest);
+                          }}
+                        >
+                          <Icon
+                            icon="share"
+                            className="text-green-500 hover:text-green-700"
+                          />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
       <GuestModal
         onSuccess={() => handleFetchGuests()}
         open={open}
