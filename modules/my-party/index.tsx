@@ -64,14 +64,16 @@ function MyParty() {
   }, []);
 
   function handleShare(guest: Guest) {
+    const url = `https://invitagil.com/invitations?g=${guest._id}`;
+
+    const text = `¡Hola ${guest.name}! Te Inivito a mi bautizo, aquí tienes tu enlace de invitación: ${url}`;
+
     if (guest.phone) {
       const phoneNumber = guest.phone.replace(/\D/g, "");
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}. Por favor confirma tu asistencia.`;
       window.open(whatsappUrl, "_blank");
       return;
     }
-    const url = `${window.location.origin}/invitations?g=${guest._id}`;
-    const text = `¡Hola ${guest.name}! Te Inivito a mi bautizo, aquí tienes tu enlace de invitación: ${url}`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}. Por favor confirma tu asistencia.`;
     window.open(whatsappUrl, "_blank");
   }
