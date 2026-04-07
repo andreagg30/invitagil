@@ -1,6 +1,8 @@
 import clientPromise from "@/lib/db-client";
 import { ObjectId } from "mongodb";
 
+
+
 export async function GET(request: Request) {
   const client = await clientPromise;
   const db = client.db("invitagil");
