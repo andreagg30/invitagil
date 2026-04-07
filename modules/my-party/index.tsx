@@ -17,7 +17,7 @@ export interface GuestData {
   name: string;
   email: string;
   phone: string;
-  assignedPasses: number;
+  assignedPasses: string;
   passes: Pass[];
 }
 
@@ -57,7 +57,6 @@ function MyParty() {
       });
   }
 
-
   useEffect(() => {
     Promise.resolve().then(() => handleFetchGuests());
   }, []);
@@ -69,10 +68,36 @@ function MyParty() {
     window.open(whatsappUrl, "_blank");
   }
 
+  const totalInvitados =
+    guests?.reduce(
+      (total, guest) => total + parseInt(guest.assignedPasses),
+      0,
+    ) || 0;
+
+  const totalConfirmados =
+    guests?.reduce((total, guest) => total + guest.confirmedPasses, 0) || 0;
+
   return (
     <div className="flex flex-col px-[10%] py-10 gap-10">
       <title>Mi fiesta</title>
-      <h1 className="font-bold text-2xl">Mis Invitados</h1>
+      <div className="flex">
+        <h1 className="font-bold text-2xl">Mis Invitados</h1>
+        <div className="flex-1 items-center  flex justify-end">
+          <div className="bg-white/70 items-center flex gap-3 rounded-lg p-3">
+            <span className="font-bold">Total invitados:</span>
+            <span className="font-semibold text-[#246496]">
+              {totalInvitados}
+            </span>
+
+            <div className="bg-gray-200 w-0.5 h-10"></div>
+
+            <span className="font-bold">Total confirmados:</span>
+            <span className="font-semibold text-green-700">
+              {totalConfirmados}
+            </span>
+          </div>
+        </div>
+      </div>
 
       <button
         onClick={() => setOpen(true)}
@@ -157,7 +182,7 @@ function MyParty() {
                           className="text-red-500 hover:text-red-700"
                         />
                       </button>
-                       <button
+                      <button
                         className="w-min h-min flex items-center cursor-pointer"
                         onClick={() => {
                           handleShare(guest);
