@@ -78,6 +78,22 @@ function MyParty() {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}. Por favor confirma tu asistencia.`;
     window.open(whatsappUrl, "_blank");
   }
+
+  function handleRemind(guest: Guest) {
+    const url = `https://invitagil.com/invitations?g=${guest._id}`;
+
+    const text = `¡Hola ${guest.name}! Se acerca mi baby shower y aún no hemos recibido tu confirmación. Por favor, haz clic en el enlace y presiona el botón de hasta abajo para confirmar tu asistencia ${url}`;
+
+    if (guest.phone) {
+      const phoneNumber = guest.phone.replace(/\D/g, "");
+      
+      const whatsappUrl = `https://wa.me/${'+52' + phoneNumber}?text=${encodeURIComponent(text)}.`;
+      window.open(whatsappUrl, "_blank");
+      return;
+    }
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}.`;
+    window.open(whatsappUrl, "_blank");
+  }
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -241,6 +257,17 @@ function MyParty() {
                           <Icon
                             icon="share"
                             className="text-green-500 hover:text-green-700"
+                          />
+                        </button>
+                         <button
+                          className="w-min h-min flex items-center cursor-pointer"
+                          onClick={() => {
+                            handleRemind(guest);
+                          }}
+                        >
+                          <Icon
+                            icon="approval"
+                            className="text-yellow-500 hover:text-yellow-700"
                           />
                         </button>
                       </div>

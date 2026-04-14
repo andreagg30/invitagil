@@ -36,10 +36,10 @@ export default function Modal({ open, onClose, title, children, actions }: Modal
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md flex flex-col rounded-2xl bg-white p-6 shadow-xl max-h-[calc(100vh-2rem)]"
+        className="w-full max-w-md flex flex-col rounded-2xl bg-white shadow-xl max-h-[calc(100vh-2rem)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-4 flex items-center justify-between">
+        <div className="p-6  rounded-t-2xl  flex items-center justify-between bg-primary-brown/40">
           {title ? (
             <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
           ) : (
@@ -48,15 +48,18 @@ export default function Modal({ open, onClose, title, children, actions }: Modal
 
           <button
             onClick={onClose}
-            className="rounded-md cursor-pointer h-7 w-7 flex justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            className="rounded-md cursor-pointer h-7 w-7 flex justify-center items-center text-black hover:bg-gray-100 hover:text-gray-700"
             aria-label="Close modal"
           >
             <Icon icon="close" />
           </button>
         </div>
 
-        <div className="overflow-auto flex-1">{children}</div>
-        {actions}
+        <div className="overflow-auto flex-1 p-6">{children}</div>
+        <div className="w-full p-3 ">
+          {actions}
+        </div>
+        
       </div>
     </div>
   );
