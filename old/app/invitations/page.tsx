@@ -1,4 +1,4 @@
-import Invitation from "@/modules/invitation";
+/* import Invitation from "@/modules/invitation";
 
 export const metadata = {
   title: "Acompáñanos a celebrar la llegada de nuestro bebé",
@@ -23,3 +23,4 @@ function Invitations() {
 }
 
 export default Invitations;
+ */

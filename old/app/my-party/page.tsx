@@ -1,4 +1,4 @@
-import MyParty from "@/modules/my-party";
+/* import MyParty from "@/modules/my-party";
 
 export const metadata = {
   title: "Gestiona tu fiesta",
@@ -16,3 +16,4 @@ function MyPartyModule() {
 }
 
 export default MyPartyModule;
+ */
