@@ -1,7 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-midnight: #121063;
-  --color-tahiti: #3ab7bf;
-  --color-bermuda: #78dcca;
+  --color-old-paper: #F7F1DF;
+  --color-ivory: #F7F3EA;
+  --color-paper: #FFFDF8;
+  --color-charcoal: #4A4A4A;
+  --color-soft-gray: #9B9B9B;
+
+  --color-mint: #8FD8D2;
+  --color-aqua: #78DCCA;
+  --color-perry: #3aaa96;
+
+  --color-plum: #7A1F5C;
+  --color-flower: #B23A7D;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-old-paper);
 }
