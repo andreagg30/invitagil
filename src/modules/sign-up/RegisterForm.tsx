@@ -1,13 +1,16 @@
-import { useForm } from "react-hook-form";
-import { Button, Card, PhoneInput, TextInput } from "../../components";
-import { formErrors } from "../../contants/errors";
+import { Controller, useForm } from "react-hook-form";
+import { Button, Card, Dropdown, PhoneInput, TextInput } from "../../components";
+import { formValidators } from "../../shared/formValidators";
 
 function RegisterForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control
   } = useForm();
+
+  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit(() => console.log("submit"))}>
@@ -17,8 +20,9 @@ function RegisterForm() {
           type="email"
           maxLength={255}
           {...register("email", {
-            required: formErrors.required,
-            pattern: formErrors.invalidEmail,
+            required: formValidators.required,
+            pattern: formValidators.email,
+
           })}
           error={errors.email}
         />
@@ -29,7 +33,8 @@ function RegisterForm() {
           maxLength={100}
           placeholder="Ingresa..."
           {...register("password", {
-            required: formErrors.required,
+            required: formValidators.required,
+            ...formValidators.password
           })}
           error={errors.password}
         />
@@ -39,8 +44,8 @@ function RegisterForm() {
           maxLength={100}
           placeholder="Ingresa..."
           {...register("name", {
-            required: formErrors.required,
-            pattern: formErrors.noSpecialChars,
+            required: formValidators.required,
+            pattern: formValidators.noSpecialChars,
           })}
           error={errors.name}
         />
@@ -50,8 +55,8 @@ function RegisterForm() {
           maxLength={100}
           placeholder="Ingresa..."
           {...register("lastName", {
-            required: formErrors.required,
-            pattern: formErrors.noSpecialChars,
+            required: formValidators.required,
+            pattern: formValidators.noSpecialChars,
           })}
           error={errors.lastName}
         />
@@ -59,8 +64,24 @@ function RegisterForm() {
         <PhoneInput
           label="Número de teléfono*"
           maxLength={20}
-          {...register("phone", { required: formErrors.required })}
+          {...register("phone", { required: formValidators.required })}
           error={errors.phone}
+        />
+
+        <Controller
+          name="country"
+          control={control}
+          render={({ field }) => (
+            <Dropdown
+              options={[
+                { label: "México", value: "MX" },
+                { label: "Estados Unidos", value: "US" },
+                { label: "Canadá", value: "CA" },
+              ]}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
         />
 
         <Button type="submit">Crear cuenta</Button>
