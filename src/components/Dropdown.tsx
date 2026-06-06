@@ -1,33 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/refs */
 import {
-  autoUpdate,
-  flip,
-  useFloating,
   useInteractions,
-  useListNavigation,
-  useTypeahead,
-  useClick,
   useListItem,
-  useDismiss,
-  useRole,
   FloatingFocusManager,
   FloatingList,
-  size,
 } from "@floating-ui/react";
 import * as React from "react";
 import type { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { cn } from "../utils/cn";
 import { isString } from "lodash";
+import Icon from "./Icon";
+import useDropdown, {
+  type DropdownOption,
+  type HandleSelect,
+  type OnChange,
+  type OptionsList,
+} from "../hooks/useDropdown";
 
-type DropdownOption = {
-  label: string;
-  value: string;
-};
-
-type OptionsList = DropdownOption[];
-
-type OnChange = (option: DropdownOption) => void;
 interface DropdownProps {
   value: DropdownOption | null;
   options: OptionsList;
@@ -40,7 +30,7 @@ interface SelectContextValue {
   activeIndex: number | null;
   selectedIndex: number | null;
   getItemProps: ReturnType<typeof useInteractions>["getItemProps"];
-  handleSelect: (index: number | null) => void;
+  handleSelect: HandleSelect;
 }
 
 const SelectContext = React.createContext<SelectContextValue>(
@@ -55,84 +45,25 @@ function Select({
 }: {
   children: React.ReactNode;
   value: DropdownOption | null;
-  onChange: (index: number | null) => void;
+  onChange: HandleSelect;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
 }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
-
-  const { refs, floatingStyles, context } = useFloating({
-    placement: "bottom-start",
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      flip(),
-      size({
-        apply({ rects, elements }) {
-          Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
-          });
-        },
-      }),
-    ],
-  });
-
-  const elementsRef = React.useRef<Array<HTMLElement | null>>([]);
-  const labelsRef = React.useRef<Array<string | null>>([]);
-
-  const handleSelect = React.useCallback((index: number | null) => {
-    setSelectedIndex(index);
-    setIsOpen(false);
-    if (index !== null) {
-      onChange(index);
-    }
-  }, []);
-
-  function handleTypeaheadMatch(index: number | null) {
-    if (isOpen) {
-      setActiveIndex(index);
-    } else {
-      handleSelect(index);
-    }
-  }
-
-  const listNav = useListNavigation(context, {
-    listRef: elementsRef,
-    activeIndex,
-    selectedIndex,
-    onNavigate: setActiveIndex,
-  });
-  const typeahead = useTypeahead(context, {
-    listRef: labelsRef,
-    activeIndex,
-    selectedIndex,
-    onMatch: handleTypeaheadMatch,
-  });
-  const click = useClick(context);
-  const dismiss = useDismiss(context);
-  const role = useRole(context, { role: "listbox" });
-
-  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-    [listNav, typeahead, click, dismiss, role],
-  );
-
-  const selectContext = React.useMemo(
-    () => ({
-      activeIndex,
-      selectedIndex,
-      getItemProps,
-      handleSelect,
-    }),
-    [activeIndex, selectedIndex, getItemProps, handleSelect],
-  );
-
+  const {
+    getReferenceProps,
+    refs,
+    isOpen,
+    selectContext,
+    context,
+    floatingStyles,
+    getFloatingProps,
+    elementsRef,
+    labelsRef,
+  } = useDropdown({ onChange });
   return (
     <>
       <div
         className={cn(
-          "px-4 transition-all placeholder:text-soft-gray ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20  rounded-md focus:ring-none focus:outline-4",
+          "px-4 transition-all placeholder:text-soft-gray cursor-pointer ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20 flex gap-3 items-center rounded-md focus:ring-none focus:outline-4",
           {
             "outline-red-500 bg-red-100 hover:bg-red-100": error,
             "hover:outline-perry": !error,
@@ -142,7 +73,13 @@ function Select({
         tabIndex={0}
         {...getReferenceProps()}
       >
-        {value?.label ?? "Select..."}
+        <div className="flex-1">{value?.label ?? "Select..."}</div>
+        <Icon
+          icon="keyboard_arrow_down"
+          className={cn("transition-all", {
+            "rotate-180": isOpen,
+          })}
+        />
       </div>
       <SelectContext.Provider value={selectContext}>
         {isOpen && (
@@ -179,10 +116,13 @@ function Option({ option }: { option: DropdownOption }) {
       role="option"
       aria-selected={isActive && isSelected}
       tabIndex={isActive ? 0 : -1}
-      className={cn("text-left cursor-pointer px-4 py-2 rounded-md hover:bg-mint/20 focus:bg-mint/20 focus:outline-none", {
-        'bg-perry/50': isActive,
-        'font-bold': isSelected
-      })}
+      className={cn(
+        "text-left cursor-pointer px-4 py-2 rounded-md hover:bg-mint/20 focus:bg-mint/20 focus:outline-none",
+        {
+          "bg-perry/50": isActive,
+          "font-bold": isSelected,
+        },
+      )}
       {...getItemProps({
         onClick: () => handleSelect(index),
       })}
