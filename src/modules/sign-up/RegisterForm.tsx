@@ -2,6 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Button, Card, PhoneTextInput, TextInput } from "../../components";
 import { formValidators } from "../../shared/formValidators";
 import { Link } from "react-router-dom";
+import { useSignUp, type SignUpPayload } from "../../hooks/api/useSignUp";
 
 function RegisterForm() {
   const {
@@ -9,12 +10,23 @@ function RegisterForm() {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm<SignUpPayload>();
 
-  console.log(errors);
+  const {
+    mutate: signUp,
+    isPending: isSignUpLoading,
+    data: signUpData,
+    error: signUpError,
+  } = useSignUp();
+
+  console.log(signUpData, signUpError);
+
+  function onSubmit(data: SignUpPayload) {
+    signUp(data);
+  }
 
   return (
-    <form onSubmit={handleSubmit(() => console.log("submit"))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Card className="p-0">
         <div className="flex justify-center bg-flower p-4 rounded-t-md">
           <h1 className="text-white font-bold text-2xl">Panel de Registro</h1>
@@ -48,22 +60,22 @@ function RegisterForm() {
             label="Nombre*"
             maxLength={100}
             placeholder="Ingresa..."
-            {...register("name", {
+            {...register("first_name", {
               required: formValidators.required,
               pattern: formValidators.noSpecialChars,
             })}
-            error={errors.name}
+            error={errors.first_name}
           />
 
           <TextInput
             label="Apellido*"
             maxLength={100}
             placeholder="Ingresa..."
-            {...register("lastName", {
+            {...register("last_name", {
               required: formValidators.required,
               pattern: formValidators.noSpecialChars,
             })}
-            error={errors.lastName}
+            error={errors.last_name}
           />
 
           <Controller
@@ -82,11 +94,14 @@ function RegisterForm() {
             )}
           />
 
-           <p className="text-sm">¿Ya tienes una cuenta? <Link to="/login" className="text-flower underline font-bold">
-            Inicia sesión aquí
-          </Link></p>
+          <p className="text-sm">
+            ¿Ya tienes una cuenta?{" "}
+            <Link to="/login" className="text-flower underline font-bold">
+              Inicia sesión aquí
+            </Link>
+          </p>
 
-          <Button className="mt-3" type="submit">
+          <Button className="mt-3" loading={isSignUpLoading} type="submit">
             Crear cuenta
           </Button>
         </div>
