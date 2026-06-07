@@ -7,7 +7,6 @@ export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputEleme
   label?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
-  helperText?: string;
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(

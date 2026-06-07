@@ -25,3 +25,8 @@ body {
   margin: 0;
   background-color: var(--color-old-paper);
 }
+
+.PhoneInputInput:focus {
+  outline: none;
+  box-shadow: none;
+}
