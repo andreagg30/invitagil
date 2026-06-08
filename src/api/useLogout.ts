@@ -1,24 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
-
-export interface SignUpPayload {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-    password: string;
-}
+import { useNavigate } from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export function useSignUp() {
+export default function useLogout() {
+  const navigate = useNavigate();
+
   return useMutation({
-    mutationFn: async (payload: SignUpPayload) => {
-      const response = await fetch(`${API_URL}/api/users`, {
+    mutationFn: async () => {
+      const response = await fetch(`${API_URL}/users/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -28,6 +22,9 @@ export function useSignUp() {
       }
 
       return data;
+    },
+    onSuccess: () => {
+      navigate("/login");
     },
   });
 }

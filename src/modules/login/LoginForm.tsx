@@ -1,19 +1,31 @@
 import { useForm } from "react-hook-form";
-import { Button, Card, TextInput } from "../../components";
+import { Button, Card, PasswordInput, TextInput } from "../../components";
 import { formValidators } from "../../shared/formValidators";
 import { Link } from "react-router-dom";
+import { useLogin, type LoginPayload } from "../../api/useLogin";
 
 function LoginForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginPayload>();
 
-  console.log(errors);
+  const {
+    mutate: login,
+    isPending: isLoginLoading,
+    data: loginData,
+    error: loginError,
+  } = useLogin();
+
+  console.log(loginData, loginError);
+
+  function onSubmit(data: LoginPayload) {
+    login(data);
+  }
 
   return (
-    <form onSubmit={handleSubmit(() => console.log("submit"))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Card className="p-0">
         <div className="flex justify-center bg-flower p-4 rounded-t-md">
           <h1 className="text-white font-bold text-2xl">Inicia Sesión</h1>
@@ -30,7 +42,7 @@ function LoginForm() {
             error={errors.email}
           />
 
-          <TextInput
+          <PasswordInput
             label="Contraseña*"
             type="password"
             maxLength={100}
@@ -42,12 +54,14 @@ function LoginForm() {
             error={errors.password}
           />
 
-          <p className="text-sm">¿Aún no tienes una cuenta? <Link to="/sign-up" className="text-flower underline font-bold">
-            Regístrate aquí
-          </Link></p>
-          
+          <p className="text-sm">
+            ¿Aún no tienes una cuenta?{" "}
+            <Link to="/sign-up" className="text-flower underline font-bold">
+              Regístrate aquí
+            </Link>
+          </p>
 
-          <Button className="mt-3" type="submit">
+          <Button loading={isLoginLoading} className="mt-3" type="submit">
             Inicia Sesión
           </Button>
         </div>

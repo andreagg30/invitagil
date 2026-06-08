@@ -1,8 +1,8 @@
 import { Controller, useForm } from "react-hook-form";
-import { Button, Card, PhoneTextInput, TextInput } from "../../components";
+import { Button, Card, PasswordInput, PhoneTextInput, TextInput } from "../../components";
 import { formValidators } from "../../shared/formValidators";
 import { Link } from "react-router-dom";
-import { useSignUp, type SignUpPayload } from "../../hooks/api/useSignUp";
+import { useSignUp, type SignUpPayload } from "../../api/useSignUp";
 
 function RegisterForm() {
   const {
@@ -44,7 +44,7 @@ function RegisterForm() {
             error={errors.email}
           />
 
-          <TextInput
+          <PasswordInput
             label="Contraseña*"
             type="password"
             maxLength={100}
