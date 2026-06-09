@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "../contexts/AlertContext/useAlert";
 
 export interface LoginPayload {
   email: string;
@@ -9,6 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export function useLogin() {
   const navigate = useNavigate();
+  const { showError } = useAlert();
 
   return useMutation({
     mutationFn: async (payload: LoginPayload) => {
@@ -31,6 +33,9 @@ export function useLogin() {
     },
     onSuccess: () => {
       navigate("/");
+    },
+    onError: () => {
+      showError("Error");
     },
   });
 }

@@ -30,3 +30,18 @@ body {
   outline: none;
   box-shadow: none;
 }
+
+@keyframes progress-bar {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 101%;
+  }
+}
+
+.animate-progress-bar {
+  animation: progress-bar 3s ease-out;
+}
+

@@ -1,3 +1,4 @@
+import AlertPopUp from "./AlertPopUp";
 import Button from "./Button";
 import Card from "./Card";
 import Dropdown from "./Dropdown";
@@ -18,5 +19,5 @@ export {
     Icon,
     IconButton,
     PasswordInput,
-    
+    AlertPopUp
 }
