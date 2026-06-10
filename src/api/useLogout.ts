@@ -1,9 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "../contexts/AlertContext/useAlert";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function useLogout() {
   const navigate = useNavigate();
+
+  const { showSuccess, showError } = useAlert();
 
   return useMutation({
     mutationFn: async () => {
@@ -18,13 +21,17 @@ export default function useLogout() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error creating user");
+        throw new Error(data.message || "unknownError");
       }
 
       return data;
     },
     onSuccess: () => {
       navigate("/login");
+      showSuccess("¡Hasta Pronto!");
+    },
+    onError: (error) => {
+      showError(error.message);
     },
   });
 }

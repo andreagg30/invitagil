@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "../contexts/AlertContext/useAlert";
 
 export interface SignUpPayload {
   first_name: string;
@@ -12,6 +13,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export function useSignUp() {
   const navigate = useNavigate();
+  const { showError, showSuccess } = useAlert();
 
   return useMutation({
     mutationFn: async (payload: SignUpPayload) => {
@@ -27,13 +29,17 @@ export function useSignUp() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error creating user");
+        throw new Error(data.message || "unknownError");
       }
 
       return data;
     },
     onSuccess: () => {
       navigate("/");
+      showSuccess('¡Cuenta creada con éxito!')
+    },
+    onError: (error) => {
+      showError(error.message);
     },
   });
 }

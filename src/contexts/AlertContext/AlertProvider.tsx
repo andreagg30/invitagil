@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { AlertContext } from "./AlertContext";
 import { AlertPopUp } from "../../components";
+import { apiErrors } from "../../shared/apiErrors";
 
 export function AlertProvider({ children }: { children: ReactNode }) {
   const [success, setSuccess] = useState<string | null>(null);
@@ -15,7 +16,11 @@ export function AlertProvider({ children }: { children: ReactNode }) {
   };
 
   const showError = (message: string) => {
-    setError(message);
+    setError(
+      Object.prototype.hasOwnProperty.call(apiErrors, message)
+        ? apiErrors[message as keyof typeof apiErrors]
+        : message
+    );
 
     setTimeout(() => {
       setError(null);

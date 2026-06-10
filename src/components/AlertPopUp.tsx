@@ -24,10 +24,11 @@ function AlertPopUp({ variant, message, onClose }: Props) {
           <Icon
             onClick={onClose}
             icon="cancel"
-            className="cursor-pointer text-base"
+            className="cursor-pointer"
+            size={18}
           />
         </div>
-        <div className="px-4 py-3">{message}</div>
+        <div className="pl-4 py-5 pt-6 pr-8 text-lg text-center flex justify-center tracking-wide font-semibold">{message}</div>
         <div className="animate-progress-bar bg-white h-3"></div>
       </div>
     </div>

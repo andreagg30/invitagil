@@ -10,7 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export function useLogin() {
   const navigate = useNavigate();
-  const { showError } = useAlert();
+  const { showError, showSuccess } = useAlert();
 
   return useMutation({
     mutationFn: async (payload: LoginPayload) => {
@@ -26,16 +26,17 @@ export function useLogin() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error creating user");
+        throw new Error(data.message || "unknownError");
       }
 
       return data;
     },
     onSuccess: () => {
       navigate("/");
+      showSuccess('¡Bienvenido!')
     },
-    onError: () => {
-      showError("Error");
+    onError: (error) => {
+      showError(error.message);
     },
   });
 }
