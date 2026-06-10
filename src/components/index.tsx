@@ -4,6 +4,7 @@ import Card from "./Card";
 import Dropdown from "./Dropdown";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
+import OtpInput from "./OtpInput";
 import PasswordInput from "./PasswordInput";
 import PhoneTextInput from "./PhoneTextInput";
 import Spinner from "./Spinner";
@@ -19,5 +20,6 @@ export {
     Icon,
     IconButton,
     PasswordInput,
-    AlertPopUp
+    AlertPopUp,
+    OtpInput
 }

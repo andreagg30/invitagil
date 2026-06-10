@@ -11,7 +11,6 @@ function Main() {
       <p className="text-lg text-gray-600">
         Tu plataforma de gestión de eventos
       </p>
-
       <Button
         loading={isPending}
         onClick={() => {

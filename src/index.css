@@ -42,6 +42,6 @@ body {
 }
 
 .animate-progress-bar {
-  animation: progress-bar 3s ease-out;
+  animation: progress-bar 6s ease-out;
 }
 

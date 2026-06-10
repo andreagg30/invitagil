@@ -4,6 +4,8 @@ import Login from "./modules/login";
 import Main from "./modules/main";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AlertProvider } from "./contexts/AlertContext/AlertProvider";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+import MyBoard from "./modules/my-board";
 
 function App() {
   const queryClient = new QueryClient();
@@ -16,6 +18,11 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+
+            
+            <Route element={<ProtectedRoute />}>
+              <Route path="/my-board" element={<MyBoard />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </AlertProvider>
