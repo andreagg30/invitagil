@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function apiFetch<T>(
   path: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> {
   let response = await fetch(`${API_URL}${path}`, {
     ...options,

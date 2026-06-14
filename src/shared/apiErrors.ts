@@ -3,5 +3,6 @@ export const apiErrors = {
   PasswordError: "Contraseña Incorrecta.",
   EmailAlreadyRegistered: "Este correo electrónico ya se encuentra en uso.",
   UserNotFound: "Usuario no encontrado.",
-  unknownError: "Algo ha salido mal, inténtelo más tarde."
+  unknownError: "Algo ha salido mal, inténtelo más tarde.",
+  InvalidVerificationCode: 'Código inválido o Expirado'
 };

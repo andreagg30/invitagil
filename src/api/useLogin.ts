@@ -31,9 +31,11 @@ export function useLogin() {
 
       return data;
     },
-    onSuccess: () => {
-      navigate("/");
-      showSuccess('¡Bienvenido!')
+    onSuccess: (data) => {
+      if (data?.data?.email_verified) {
+        showSuccess("¡Bienvenido!");
+      }
+      navigate("/my-board");
     },
     onError: (error) => {
       showError(error.message);

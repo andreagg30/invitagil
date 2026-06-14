@@ -6,9 +6,23 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AlertProvider } from "./contexts/AlertContext/AlertProvider";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import MyBoard from "./modules/my-board";
+import OtpVerify from "./modules/otp-verify";
+import { ProtectedRouteLogin } from "./routes/ProtectedRouteLogin";
+import { ProtectedRouteOtp } from "./routes/ProtectedRouteOtp";
 
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      mutations: {
+        gcTime: Infinity,
+      },
+      queries: {
+        gcTime: 1000 * 60 * 60, // 1 hora
+        refetchOnWindowFocus: false,
+        retry: false,
+      },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -16,10 +30,16 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
 
-            
+            <Route element={<ProtectedRouteLogin />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/sign-up" element={<SignUp />} />
+            </Route>
+
+            <Route element={<ProtectedRouteOtp />}>
+              <Route path="/otp-verify" element={<OtpVerify />} />
+            </Route>
+
             <Route element={<ProtectedRoute />}>
               <Route path="/my-board" element={<MyBoard />} />
             </Route>

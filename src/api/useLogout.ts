@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../contexts/AlertContext/useAlert";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -7,6 +7,7 @@ export default function useLogout() {
   const navigate = useNavigate();
 
   const { showSuccess, showError } = useAlert();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async () => {
@@ -27,8 +28,9 @@ export default function useLogout() {
       return data;
     },
     onSuccess: () => {
-      navigate("/login");
       showSuccess("¡Hasta Pronto!");
+      queryClient.removeQueries({ queryKey: ["userProfile"] });
+      navigate("/login");
     },
     onError: (error) => {
       showError(error.message);

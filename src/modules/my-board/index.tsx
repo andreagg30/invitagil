@@ -1,7 +1,5 @@
-import OtpValidation from "../otp-validation";
-
 function MyBoard() {
-    return <OtpValidation />
+  return <> my board</>;
 }
 
 export default MyBoard;

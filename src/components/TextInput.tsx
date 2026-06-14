@@ -11,7 +11,7 @@ export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputEleme
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, error, className = "", rightItem, ...props }, ref) => {
+  ({ label, error, className = "", rightItem, disabled, ...props }, ref) => {
     return (
       <div className={cn("flex flex-col", className)}>
         {label && (
@@ -29,12 +29,14 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         <div className="flex w-full relative">
           <input
             ref={ref}
+            disabled={disabled}
             className={cn(
               "px-4 transition-all w-full placeholder:text-soft-gray ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20  rounded-md focus:ring-none focus:outline-4",
               {
                 "outline-red-500 bg-red-100 hover:bg-red-100": error,
                 "hover:outline-perry": !error,
               },
+                  "disabled:bg-gray-300 disabled:border-gray-500 disabled:text-gray-500 disabled:opacity-70",
             )}
             {...props}
           />
