@@ -1,17 +1,17 @@
 // src/routes/ProtectedRoute.tsx
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import useGetProfile from "../api/useGetProfile";
+import { Loading } from "../components";
 
 export function ProtectedRoute() {
   const { data: user, isLoading } = useGetProfile();
   const location = useLocation();
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return <Loading/>;
   }
 
   
-console.log(user, 'user');
 
   if (!user) {
     return <Navigate to="/login" replace state={{ from: location }} />;
