@@ -53,7 +53,15 @@ function LoginForm() {
             })}
             error={errors.password}
           />
-
+          <p className="text-sm">
+            ¿Olvidaste tu contraseña?{" "}
+            <Link
+              to="/forgot-password"
+              className="text-flower underline font-bold"
+            >
+              Restablécela aquí
+            </Link>
+          </p>
           <p className="text-sm">
             ¿Aún no tienes una cuenta?{" "}
             <Link to="/sign-up" className="text-flower underline font-bold">
