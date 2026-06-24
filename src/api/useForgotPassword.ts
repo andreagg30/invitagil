@@ -2,13 +2,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useAlert } from "../contexts/AlertContext/useAlert";
 const API_URL = import.meta.env.VITE_API_URL;
 
-interface ForgotPasswordPayload {
+export interface ForgotPasswordPayload {
     email: string
 }
 
 export default function useForgotPassword() {
 
-  const { showSuccess, showError } = useAlert();
+  const { showError } = useAlert();
 
   return useMutation({
     mutationFn: async (payload: ForgotPasswordPayload) => {
@@ -28,9 +28,6 @@ export default function useForgotPassword() {
       }
 
       return data;
-    },
-    onSuccess: () => {
-      showSuccess("¡Código Enviado!");
     },
     onError: (error) => {
       showError(error.message);

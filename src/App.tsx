@@ -9,6 +9,7 @@ import MyBoard from "./modules/my-board";
 import OtpVerify from "./modules/otp-verify";
 import { ProtectedRouteLogin } from "./routes/ProtectedRouteLogin";
 import { ProtectedRouteOtp } from "./routes/ProtectedRouteOtp";
+import ForgotPassword from "./modules/forgot-password";
 
 function App() {
   const queryClient = new QueryClient({
@@ -33,6 +34,7 @@ function App() {
 
             <Route element={<ProtectedRouteLogin />}>
               <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/sign-up" element={<SignUp />} />
             </Route>
 

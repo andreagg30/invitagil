@@ -30,7 +30,7 @@ function LoginForm() {
         <div className="flex justify-center bg-flower p-4 rounded-t-md">
           <h1 className="text-white font-bold text-2xl">Inicia Sesión</h1>
         </div>
-        <div className="flex flex-col p-8 pt-4 gap-4">
+        <div className="flex flex-col p-8 pt-4 gap-1">
           <TextInput
             label="Correo electrónico*"
             type="email"
@@ -40,6 +40,7 @@ function LoginForm() {
               pattern: formValidators.email,
             })}
             error={errors.email}
+            className="mb-3"
           />
 
           <PasswordInput
@@ -57,21 +58,21 @@ function LoginForm() {
             ¿Olvidaste tu contraseña?{" "}
             <Link
               to="/forgot-password"
-              className="text-flower underline font-bold"
+              className="text-flower underline"
             >
               Restablécela aquí
             </Link>
           </p>
+
+          <Button loading={isLoginLoading} className="mt-5" type="submit">
+            Inicia Sesión
+          </Button>
           <p className="text-sm">
             ¿Aún no tienes una cuenta?{" "}
-            <Link to="/sign-up" className="text-flower underline font-bold">
+            <Link to="/sign-up" className="text-flower underline">
               Regístrate aquí
             </Link>
           </p>
-
-          <Button loading={isLoginLoading} className="mt-3" type="submit">
-            Inicia Sesión
-          </Button>
         </div>
       </Card>
     </form>
