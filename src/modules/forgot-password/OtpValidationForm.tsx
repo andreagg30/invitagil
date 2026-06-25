@@ -1,57 +1,60 @@
 import { Controller, useForm } from "react-hook-form";
-import { Button, Card, OtpInput } from "../../components";
+import { Button, Card, OtpInput, PasswordInput } from "../../components";
 import { formValidators } from "../../shared/formValidators";
-import { useResendOtp } from "../../api/useResendOtp";
-import { useCounter } from "../../hooks/useCounter";
-import useGetProfile from "../../api/useGetProfile";
-import { useVerifyEmail } from "../../api/useVerifyEmail";
+import { useResetPassword } from "../../api/useResetPassword";
 interface OtpPayload {
   otp: string;
+  newPassword: string;
+  confirmPassword: string;
 }
-function OtpValidationForm() {
-  const { handleSubmit, control, reset } = useForm<OtpPayload>();
-  const { startCounter, counter, isRunning } = useCounter(30);
-  const { mutate: resendOtp, isPending: isResendOtpLoading } = useResendOtp();
-
-  const { mutate: verifyEmail, isPending: isVerifyEmailLoading } =
-    useVerifyEmail();
-
-  function handleResetOtp() {
-    resendOtp(undefined, {
-      onSuccess: () => {
-        startCounter();
-      },
-    });
-  }
+function OtpValidationForm({ email, handleGoBack }: { email: string, handleGoBack: () => void }) {
+  const {
+    handleSubmit,
+    control,
+    reset,
+    register,
+    formState: { errors },
+  } = useForm<OtpPayload>();
+  const { mutate: resetPassword, isPending: isResetPasswordLoading } =
+    useResetPassword();
 
   function handleVerifyEmail(payload: OtpPayload) {
-    verifyEmail(payload, {
-      onError: () => {
-        reset({
-          otp: "",
-        });
+    resetPassword(
+      {
+        email,
+        newPassword: payload.newPassword,
+        otp: payload.otp,
       },
-    });
+      {
+        onError: () => {
+          reset({
+            otp: "",
+            confirmPassword: "",
+            newPassword: "",
+          });
+        },
+      },
+    );
   }
-
-  const { data: user } = useGetProfile();
 
   return (
     <form onSubmit={handleSubmit(handleVerifyEmail)}>
       <Card className="p-0">
         <div className="flex justify-center bg-flower p-4 rounded-t-md">
           <h1 className="text-white font-bold text-2xl">
-            Verifica tu correo electrónico
+            Revisa tu correo electrónico
           </h1>
         </div>
-        <div className="flex pt-10 px-10 justify-center text-justify">
+        <div className="flex pt-3 px-10 justify-center text-justify">
           <p>
-            Ingresa el código de verificación que enviamos a tu correo
-            electrónico: <strong>{user?.email}</strong>
+            Te enviamos un código de verificación para restablecer tu
+            contraseña. Revisa tu correo electrónico y, si no lo ves en unos
+            minutos, revisa tu carpeta de spam o correo no deseado.
           </p>
         </div>
 
         <div className="flex flex-col p-8 pt-4 gap-4">
+          <span className="font-bold">1. Ingresa el Código de Verificación:</span>
           <Controller
             name="otp"
             control={control}
@@ -62,24 +65,53 @@ function OtpValidationForm() {
               <OtpInput value={field.value} onChange={field.onChange} />
             )}
           />
-          <div className="flex gap-3 mt-15">
+
+          <span className="font-bold">2. Ingresa tu nueva contraseña:</span>
+
+          <PasswordInput
+            label="Nueva Contraseña*"
+            type="password"
+            hideIcon
+            maxLength={100}
+            placeholder="Ingresa..."
+            {...register("newPassword", {
+              required: formValidators.required,
+              ...formValidators.password,
+            })}
+            error={errors.newPassword}
+          />
+
+          <PasswordInput
+            label="Confirmar Contraseña*"
+            type="password"
+            hideIcon
+            maxLength={100}
+            placeholder="Ingresa..."
+            {...register("confirmPassword", {
+              required: formValidators.required,
+              validate: (value, formValues) => {
+                if (value !== formValues.newPassword) {
+                  return "Las contraseñas deben coincidir.";
+                }
+              },
+            })}
+            error={errors.confirmPassword}
+          />
+          <div className="flex gap-3 mt-5">
             <Button
+              onClick={handleGoBack}
+              disabled={isResetPasswordLoading}
               variant="outlined"
-              loading={isResendOtpLoading}
-              className="flex-1"
               type="button"
-              disabled={!!isRunning}
-              onClick={handleResetOtp}
             >
-              {isRunning ? `Reenviar en ${counter}s` : "Reenviar código"}
+              Regresar
             </Button>
             <Button
-              disabled={isResendOtpLoading}
-              loading={isVerifyEmailLoading}
+              loading={isResetPasswordLoading}
               className="flex-1"
               type="submit"
             >
-              Verificar
+              Restablecer contraseña
             </Button>
           </div>
         </div>

@@ -14,11 +14,8 @@ function LoginForm() {
   const {
     mutate: login,
     isPending: isLoginLoading,
-    data: loginData,
-    error: loginError,
   } = useLogin();
 
-  console.log(loginData, loginError);
 
   function onSubmit(data: LoginPayload) {
     login(data);

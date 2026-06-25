@@ -3,25 +3,45 @@ import type { ForgotPasswordPayload } from "../../api/useForgotPassword";
 import useForgotPassword from "../../api/useForgotPassword";
 import { Button, Card, TextInput } from "../../components";
 import { formValidators } from "../../shared/formValidators";
-import Done from "./Done";
+import OtpValidationForm from "./OtpValidationForm";
+import { useState } from "react";
 
 function EmailForm() {
-  const { mutate: forgotPassword, isPending: isForgotPasswordLoading, data: forgotPasswordData } =
+  const { mutate: forgotPassword, isPending: isForgotPasswordLoading } =
     useForgotPassword();
-  function handleForgotPassword(payload: ForgotPasswordPayload) {
-    forgotPassword(payload);
-  }
+
   const {
     handleSubmit,
     formState: { errors },
     register,
+    getValues,
+    setValue,
   } = useForm<ForgotPasswordPayload>();
 
+  const [showEmail, setShowEmail] = useState(false);
 
-  if(forgotPasswordData?.success){
-    return <Done />
+  function handleForgotPassword(payload: ForgotPasswordPayload) {
+    forgotPassword(payload, {
+      onSuccess: (data) => {
+        if (data.success) {
+          setShowEmail(true);
+        }
+      },
+    });
   }
-  
+
+  if (showEmail) {
+    return (
+      <OtpValidationForm
+        handleGoBack={() => {
+          setShowEmail(false);
+          setValue("email", "");
+        }}
+        email={getValues("email")}
+      />
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit(handleForgotPassword)}>
       <Card className="p-0">
@@ -32,8 +52,9 @@ function EmailForm() {
         </div>
         <div className="flex pt-3 pb-4 px-10 justify-center text-justify">
           <p className="leading-5">
-            Introduce la dirección de correo electrónico verificada de tu cuenta
-            de usuario y te enviaremos un enlace para restablecer la contraseña.
+            Te enviamos un enlace para restablecer tu contraseña. Revisa tu
+            correo electrónico y, si no lo ves en unos minutos, revisa tu
+            carpeta de spam o correo no deseado.
           </p>
         </div>
         <div className="flex flex-col p-8 pt-4 gap-5">
