@@ -19,7 +19,7 @@ export default function Button({
       {...props}
       disabled={disabled}
       className={cn(
-        "bg-flower  min-h-10 leading-none transition-all text-white py-2 px-4 rounded-lg hover:bg-plum",
+        "bg-flower font-body min-h-10 leading-none transition-all text-white py-2 px-4 rounded-full hover:bg-plum",
         "justify-center flex items-center",
         className,
         {
