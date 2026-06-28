@@ -1,50 +1,84 @@
-/* eslint-disable react-hooks/refs */
-import { autoUpdate, flip, FloatingFocusManager, offset, shift, useClick, useDismiss, useFloating, useInteractions, useRole } from "@floating-ui/react";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { appBarOptions } from "../shared/options";
+import { cn } from "../utils/cn";
+import Button from "./Button";
+import { Divider } from "./Divider";
 
 function MenuOptions() {
-   const [isOpen, setIsOpen] = useState(false);
-
-  const { refs, floatingStyles, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [offset(10), flip(), shift({ padding: 8 })],
-    whileElementsMounted: autoUpdate,
-    
-  });
-
-  const click = useClick(context);
-  const dismiss = useDismiss(context);
-  const role = useRole(context);
-
-  // Merge all the interactions into prop getters
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    click,
-    dismiss,
-    role,
-  ]);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <IconButton ref={refs.setReference} {...getReferenceProps()}>
-        <Icon icon="menu" className="text-flower" />
+      <IconButton>
+        <Icon
+          icon="menu"
+          onClick={() => setIsOpen(true)}
+          className="text-flower"
+        />
       </IconButton>
 
-      {isOpen && (
-        <FloatingFocusManager context={context} modal={false}>
-          <div
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-            className="bg-white border-2 mr-2 flex flex-col border-aqua shadow rounded-lg p-2 mt-1 z-10 focus:outline-none"
-          >
-            Popover element
+   
+        <div className={cn("fixed z-10 top-0 left-0 right-0 bottom-0 flex flex-col transition-all", {
+            "translate-y-0 scale-100 opacity-100": isOpen,
+            "pointer-events-none -translate-y-4 scale-95 opacity-0": !isOpen,
+        })}>
+          <div onClick={() => setIsOpen(false)} className="h-17 w-full"></div>
+          <div className="flex-1 rounded-t-2xl shadow-[0_24px_80px_rgba(88,3,50,0.50)] p-4 bg-soft-pink flex flex-col">
+            <div className="flex justify-end">
+              <IconButton onClick={() => setIsOpen(false)}>
+                <Icon icon="close" className="text-flower" />
+              </IconButton>
+            </div>
+            {appBarOptions.map((item, i) => {
+              const isActive =
+                location.pathname + location.hash === item.to ||
+                (item.to === "/" &&
+                  location.pathname === "/" &&
+                  !location.hash);
+
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setIsOpen(false)}
+                  className={cn(
+                    "font-body border-b px-2 pt-2.5 h-10 transition-all flex flex-col gap-2 cursor-pointer text-sm font-semibold uppercase",
+                    {
+                      "text-flower": isActive,
+                      "text-dark-text border-b-border hover:text-flower":
+                        !isActive,
+                      "border-0": i + 1 === appBarOptions.length,
+                    },
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+
+            <div className="flex-1 pb-3 justify-end flex flex-col gap-0.5">
+              <div className="flex justify-center">
+                <Button className="h-min w-min whitespace-nowrap text-sm px-5">
+                  INICIAR SESIÓN
+                </Button>
+              </div>
+              <div className="flex items-center gap-2">
+                <Divider />
+                <span>o</span>
+                <Divider />
+              </div>
+              <div className="flex justify-center">
+                <Link to="/login" className="text-flower underline underline-offset-8 text-sm font-body font-semibold">
+                  REGISTRARSE
+                </Link>
+              </div>
+            </div>
           </div>
-        </FloatingFocusManager>
-      )}
+        </div>
     </>
   );
 }
-export default MenuOptions
+export default MenuOptions;

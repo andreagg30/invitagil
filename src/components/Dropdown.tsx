@@ -63,7 +63,7 @@ function Select({
     <>
       <div
         className={cn(
-          "px-4 transition-all placeholder:text-soft-gray cursor-pointer ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20 flex gap-3 items-center rounded-md focus:ring-none focus:outline-4",
+          "px-4 transition-all placeholder:text-soft-gray bg-bg cursor-pointer ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20 flex gap-3 items-center rounded-md focus:ring-none focus:outline-4",
           {
             "outline-red-500 bg-red-100 hover:bg-red-100": error,
             "hover:outline-perry": !error,

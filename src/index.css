@@ -1,4 +1,12 @@
+@import 'material-symbols' layer(base);
 @import "tailwindcss";
+
+.material-symbols-rounded,
+.material-symbols-outlined,
+.material-symbols-sharp {
+  font-size: revert-layer !important;
+}
+
 
 @theme {
   --color-old-paper: #FAF5F6;
@@ -7,12 +15,12 @@
   --color-charcoal: #4A4A4A;
   --color-soft-gray: #9B9B9B;
 
-  --color-mint: #8FD8D2;
-  --color-aqua: #78DCCA;
-  --color-perry: #3aaa96;
+  --color-mint: #e8f0f1;
+  --color-aqua: #244249;
+  --color-perry: #355c63;
 
   --color-plum: #7A1F5C;
-  --color-flower: #B23A7D;
+  --color-flower: #B62F66;
 
   --color-bg-plum-dark: #8f2d63;
 
@@ -24,6 +32,7 @@
   --color-text-soft: #6f5b68;
 
   --color-border: #efd3e0;
+  --color-soft-pink: #FDF8F7;
   --color-accent-gold: #c7a46b;
 
 

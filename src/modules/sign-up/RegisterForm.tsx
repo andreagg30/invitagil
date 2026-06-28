@@ -1,5 +1,12 @@
 import { Controller, useForm } from "react-hook-form";
-import { Button, Card, PasswordInput, PhoneTextInput, TextInput } from "../../components";
+import {
+  Button,
+  Card,
+  Icon,
+  PasswordInput,
+  PhoneTextInput,
+  TextInput,
+} from "../../components";
 import { formValidators } from "../../shared/formValidators";
 import { Link } from "react-router-dom";
 import { useSignUp, type SignUpPayload } from "../../api/useSignUp";
@@ -27,12 +34,25 @@ function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="p-0">
-        <div className="flex justify-center bg-flower p-4 rounded-t-md">
-          <h1 className="text-white font-bold text-2xl">Panel de Registro</h1>
+      <Card className="p-0 px-5 relative overflow-hidden flex-1 max-w-125 w-[calc(100vw-24px)">
+        <img src="/1.svg" alt="flowers" className="h-45 w-45 absolute right-3 top-3" />
+        <div className="flex justify-center">
+          <div className="mt-5 flex justify-center items-center shadow border border-border h-15 w-15 rounded-full bg-white">
+            <Icon
+              icon="person"
+              className="text-flower text-3xl mr-1.5 mb-2 "
+            ></Icon>
+          </div>
         </div>
-        <div className="flex flex-col p-8 pt-4 gap-4">
-          <p>Ingresa los siguientes datos para crear tu cuenta:</p>
+        <div className="flex justify-center p-4 z-10">
+          <h1 className="text-flower font-title font-medium text-4xl">
+            Panel de Registro
+          </h1>
+        </div>
+        <div className="flex flex-col p-8 pt-4 gap-4 z-10">
+          <p className="text-dark-text text-center">
+            Ingresa los siguientes datos para crear tu cuenta:
+          </p>
           <TextInput
             label="Correo electrónico*"
             type="email"

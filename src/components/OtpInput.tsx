@@ -133,7 +133,7 @@ export default function OtpInput({
           onPaste={handlePaste}
           className={cn(
             "h-12 w-12",
-            "px-4 transition-all text-center bg-white placeholder:text-soft-gray ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20  rounded-md focus:ring-none focus:outline-4",
+            "px-4 transition-all bg-bg text-center bg-white placeholder:text-soft-gray ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20  rounded-md focus:ring-none focus:outline-4",
             {
               "border-red-500 focus:border-red-500 focus:ring-red-200": error,
               "border-gray-300": !error,

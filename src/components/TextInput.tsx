@@ -31,7 +31,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             ref={ref}
             disabled={disabled}
             className={cn(
-              "px-4 transition-all w-full placeholder:text-soft-gray ring-none min-h-10 outline-2 outline-perry hover:bg-mint/20  rounded-md focus:ring-none focus:outline-4",
+              "px-4 transition-all w-full placeholder:text-soft-gray ring-none min-h-10 outline-2 bg-bg outline-perry hover:bg-bg-soft/20  rounded-md focus:ring-none focus:outline-4",
               {
                 "outline-red-500 bg-red-100 hover:bg-red-100": error,
                 "hover:outline-perry": !error,

@@ -2,6 +2,7 @@ import AlertPopUp from "./AlertPopUp";
 import Button from "./Button";
 import Card from "./Card";
 import Dropdown from "./Dropdown";
+import GeneralLayout from "./GeneralLayout";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import Loading from "./Loading";
@@ -24,6 +25,7 @@ export {
     PasswordInput,
     AlertPopUp,
     OtpInput,
+    GeneralLayout,
     MenuOptions,
     Loading
 }

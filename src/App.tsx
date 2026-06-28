@@ -10,6 +10,7 @@ import OtpVerify from "./modules/otp-verify";
 import { ProtectedRouteLogin } from "./routes/ProtectedRouteLogin";
 import { ProtectedRouteOtp } from "./routes/ProtectedRouteOtp";
 import ForgotPassword from "./modules/forgot-password";
+import { GeneralLayout } from "./components";
 
 function App() {
   const queryClient = new QueryClient({
@@ -30,20 +31,22 @@ function App() {
       <AlertProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route element={<GeneralLayout />}>
+              <Route path="/" element={<Main />} />
 
-            <Route element={<ProtectedRouteLogin />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/sign-up" element={<SignUp />} />
-            </Route>
+              <Route element={<ProtectedRouteLogin />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/sign-up" element={<SignUp />} />
+              </Route>
 
-            <Route element={<ProtectedRouteOtp />}>
-              <Route path="/otp-verify" element={<OtpVerify />} />
-            </Route>
+              <Route element={<ProtectedRouteOtp />}>
+                <Route path="/otp-verify" element={<OtpVerify />} />
+              </Route>
 
-            <Route element={<ProtectedRoute />}>
-              <Route path="/my-board" element={<MyBoard />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/my-board" element={<MyBoard />} />
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>

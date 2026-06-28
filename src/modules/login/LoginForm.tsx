@@ -11,11 +11,7 @@ function LoginForm() {
     formState: { errors },
   } = useForm<LoginPayload>();
 
-  const {
-    mutate: login,
-    isPending: isLoginLoading,
-  } = useLogin();
-
+  const { mutate: login, isPending: isLoginLoading } = useLogin();
 
   function onSubmit(data: LoginPayload) {
     login(data);
@@ -23,9 +19,14 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="p-0">
-        <div className="flex justify-center bg-flower p-4 rounded-t-md">
-          <h1 className="text-white font-bold text-2xl">Inicia Sesión</h1>
+      <Card className="p-0 px-10 relative overflow-hidden flex-1 max-w-125 w-[calc(100vw-24px)">
+        <img
+          src="/1.svg"
+          alt="flowers"
+          className="h-45 w-45 absolute right-3 top-3"
+        />
+        <div className="flex justify-center z-10 p-4 pt-16">
+          <h1 className="text-flower font-title font-medium text-4xl">Inicia Sesión</h1>
         </div>
         <div className="flex flex-col p-8 pt-4 gap-1">
           <TextInput
@@ -53,15 +54,12 @@ function LoginForm() {
           />
           <p className="text-sm">
             ¿Olvidaste tu contraseña?{" "}
-            <Link
-              to="/forgot-password"
-              className="text-flower underline"
-            >
+            <Link to="/forgot-password" className="text-flower underline">
               Restablécela aquí
             </Link>
           </p>
 
-          <Button loading={isLoginLoading} className="mt-5" type="submit">
+          <Button loading={isLoginLoading} className="mt-8" type="submit">
             Inicia Sesión
           </Button>
           <p className="text-sm">
