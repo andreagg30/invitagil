@@ -10,7 +10,6 @@ interface IconProps extends React.DetailedHTMLProps<
   hoverIcon?: MaterialSymbol;
   filled?: boolean;
   rounded?: boolean;
-  size?: number | string;
 }
 
 export default function Icon({
@@ -19,7 +18,6 @@ export default function Icon({
   filled,
   className,
   rounded = true,
-  size = 24,
   style,
   ...props
 }: IconProps) {
@@ -37,9 +35,6 @@ export default function Icon({
         className,
       )}
       style={{
-        fontSize: typeof size === "number" ? `${size}px` : size,
-        width: typeof size === "number" ? `${size}px` : size,
-        height: typeof size === "number" ? `${size}px` : size,
         fontVariationSettings: filled
           ? '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24'
           : '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24',

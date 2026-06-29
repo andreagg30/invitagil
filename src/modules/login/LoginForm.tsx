@@ -48,7 +48,6 @@ function LoginForm() {
             placeholder="Ingresa..."
             {...register("password", {
               required: formValidators.required,
-              ...formValidators.password,
             })}
             error={errors.password}
           />

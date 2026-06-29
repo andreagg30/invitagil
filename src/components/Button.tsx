@@ -28,7 +28,7 @@ export default function Button({
           "bg-white hover:bg-plum/10 text-flower border-2 border-flower":
             variant === "outlined",
           "active:scale-105 cursor-pointer": !disabled,
-          'py-1 min-h-auto text-xs': size === 'sm'
+          'py-1 min-h-8 text-xs': size === 'sm'
         },
         "disabled:bg-gray-300 disabled:border-gray-500 disabled:text-gray-500 disabled:opacity-70",
       )}

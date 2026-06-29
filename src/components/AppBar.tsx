@@ -3,17 +3,24 @@ import { appBarOptions } from "../shared/options";
 import { cn } from "../utils/cn";
 import Button from "./Button";
 import MenuOptions from "./MenuOptions";
+import useGetProfile from "../api/useGetProfile";
+import Profile from "./Profile";
 
 function AppBar() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { data: user } = useGetProfile();
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 flex items-center bg-soft-pink md:px-10 py-3">
       <Link to="/">
         <img src="/logo.png" alt="Invitágil" className="h-18 max-md:h-12" />
       </Link>
-      <Link to="/" className="text-3xl cursor-pointer md:text-4xl text-dark-text font-title font-semibold ml-2">
+      <Link
+        to="/"
+        className="text-3xl cursor-pointer md:text-4xl text-dark-text font-title font-semibold ml-2"
+      >
         Invita<span className="text-flower">gil</span>
       </Link>
 
@@ -45,19 +52,25 @@ function AppBar() {
           );
         })}
         <div className="flex gap-2">
-          <Button
-            onClick={() => navigate("/login")}
-            className="h-min ml-4 font-semibold text-sm px-5"
-          >
-            INICIAR SESIÓN
-          </Button>
-          <Button
-            onClick={() => navigate("/sign-up")}
-            variant="outlined"
-            className="h-min font-medium text-sm px-5"
-          >
-            REGISTRARME
-          </Button>
+          {user ? (
+            <Profile />
+          ) : (
+            <>
+              <Button
+                onClick={() => navigate("/login")}
+                className="h-min ml-4 font-semibold text-sm px-5"
+              >
+                INICIAR SESIÓN
+              </Button>
+              <Button
+                onClick={() => navigate("/sign-up")}
+                variant="outlined"
+                className="h-min font-medium text-sm px-5"
+              >
+                REGISTRARME
+              </Button>
+            </>
+          )}
         </div>
       </nav>
       <nav className="flex md:hidden flex-1 justify-end pr-4">

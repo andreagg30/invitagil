@@ -22,12 +22,11 @@ function AlertPopUp({ variant, message, onClose, progressKey }: Props) {
           },
         )}
       >
-        <div className="absolute right-1 top-1 h-6">
+        <div className="absolute right-3 top-1 h-6">
           <Icon
             onClick={onClose}
             icon="cancel"
-            className="cursor-pointer"
-            size={18}
+            className="cursor-pointer text-lg"
           />
         </div>
 
