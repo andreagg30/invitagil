@@ -11,6 +11,7 @@ import { ProtectedRouteLogin } from "./routes/ProtectedRouteLogin";
 import { ProtectedRouteOtp } from "./routes/ProtectedRouteOtp";
 import ForgotPassword from "./modules/forgot-password";
 import { GeneralLayout } from "./components";
+import NewEvent from "./modules/new-event";
 
 function App() {
   const queryClient = new QueryClient({
@@ -46,6 +47,7 @@ function App() {
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/my-board" element={<MyBoard />} />
+                <Route path="/new-event" element={<NewEvent />} />
               </Route>
             </Route>
           </Routes>

@@ -2,7 +2,7 @@ import '../index.css'
 
 export default function Loading() {
   return (
-    <div className="flex w-full justify-center items-center h-screen ">
+    <div className="flex w-full justify-center items-center h-full ">
       <div
         className="flex h-10 rounded-full pt-1 bg-white w-30 items-center justify-center gap-2"
         role="status"

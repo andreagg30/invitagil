@@ -11,6 +11,7 @@ import OtpInput from "./OtpInput";
 import PasswordInput from "./PasswordInput";
 import PhoneTextInput from "./PhoneTextInput";
 import Spinner from "./Spinner";
+import Stepper from "./Stepper";
 import TextInput from "./TextInput";
 
 export {
@@ -18,6 +19,7 @@ export {
     TextInput,
     Spinner,
     Button,
+    Stepper,
     PhoneTextInput,
     Dropdown,
     Icon,

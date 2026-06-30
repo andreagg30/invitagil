@@ -7,6 +7,7 @@ const cards: {
   label: string;
   description: string;
   buttonLabel: string;
+  path: string;
 }[] = [
   {
     icon: "calendar_add_on",
@@ -14,6 +15,7 @@ const cards: {
     description:
       "Comienza un evento desde cero y personaliza todos sus detalles.",
     buttonLabel: "Crear evento",
+    path: "/new-event",
   },
   {
     icon: "event",
@@ -21,6 +23,7 @@ const cards: {
     description:
       "Consulta y administra los eventos que has creado en Invitagil.",
     buttonLabel: "Ver eventos",
+    path: "/new-event",
   },
   {
     icon: "mark_as_unread",
@@ -28,6 +31,7 @@ const cards: {
     description:
       "Diseña, edita y comparte las invitaciones digitales de tus eventos.",
     buttonLabel: "Ver invitaciones",
+    path: "/new-event",
   },
   {
     icon: "groups_2",
@@ -35,6 +39,7 @@ const cards: {
     description:
       "Organiza tu lista de invitados y da seguimiento a sus confirmaciones.",
     buttonLabel: "Ver invitados",
+    path: "/new-event",
   },
   {
     icon: "table_bar",
@@ -42,6 +47,7 @@ const cards: {
     description:
       "Distribuye a tus invitados por mesa y mantén tu evento bien organizado.",
     buttonLabel: "Organizar mesas",
+    path: "/new-event",
   },
 ];
 
@@ -50,7 +56,7 @@ function MyBoard() {
     <div className="grid mt-14 grid-cols-[repeat(auto-fit,275px)] justify-center gap-4">
       {cards.map((option, i) => (
         <Link
-          to={"/"}
+          to={option.path}
           key={i}
           className="group flex flex-col text-dark-text gap-3 relative overflow-hidden rounded-2xl bg-white p-6 transition-all duration-300
         hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(178,58,125,0.16)]"
